@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gems Motor Care - Demo Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#0f0f0f;
+color:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+padding:20px;
+background:#000;
+}
+
+header h1{
+color:#ffd700;
+}
+
+nav a{
+color:white;
+margin:0 15px;
+text-decoration:none;
+}
+
+.hero{
+height:70vh;
+background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+url("https://images.unsplash.com/photo-1503376780353-7e6692767b70");
+background-size:cover;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.hero h2{
+font-size:48px;
+}
+
+section{
+padding:60px 10%;
+}
+
+.services{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.card{
+background:#1a1a1a;
+padding:20px;
+border-radius:10px;
+text-align:center;
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.stat{
+background:#1c1c1c;
+padding:25px;
+border-radius:10px;
+text-align:center;
+font-size:24px;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:10px 0;
+}
+
+button{
+padding:10px 20px;
+background:#ffd700;
+border:none;
+font-weight:bold;
+cursor:pointer;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+td,th{
+border:1px solid #333;
+padding:10px;
+text-align:center;
+}
+
+footer{
+background:#000;
+text-align:center;
+padding:30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Gems Motor Care</h1>
+
+<nav>
+<a href="#">Home</a>
+<a href="#">Services</a>
+<a href="#">Products</a>
+<a href="#">Book</a>
+<a href="#">Login</a>
+</nav>
+
+</header>
+
+<div class="hero">
+
+<h2>Next Gen Digital Garage</h2>
+<p>Smart Automotive Service Platform</p>
+
+<button>Book Appointment</button>
+
+</div>
+
+<section>
+
+<h2>Our Services</h2>
+
+<div class="services">
+
+<div class="card">
+<h3>Car Repair</h3>
+</div>
+
+<div class="card">
+<h3>Oil Change</h3>
+</div>
+
+<div class="card">
+<h3>Brake Service</h3>
+</div>
+
+<div class="card">
+<h3>Battery Replacement</h3>
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<h2>Business Dashboard</h2>
+
+<div class="dashboard">
+
+<div class="stat">
+<span id="sales">0</span>
+<p>Daily Sales</p>
+</div>
+
+<div class="stat">
+<span id="monthly">0</span>
+<p>Monthly Sales</p>
+</div>
+
+<div class="stat">
+<span id="customers">0</span>
+<p>Total Customers</p>
+</div>
+
+<div class="stat">
+<span id="services">0</span>
+<p>Services Today</p>
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<h2>Sales Analytics</h2>
+
+<canvas id="salesChart"></canvas>
+
+</section>
+
+<section>
+
+<h2>Vehicle Service History</h2>
+
+<table>
+
+<tr>
+<th>Customer</th>
+<th>Vehicle</th>
+<th>Service</th>
+<th>Date</th>
+<th>Price</th>
+</tr>
+
+<tr>
+<td>John Carter</td>
+<td>Toyota Camry</td>
+<td>Oil Change</td>
+<td>12 Apr 2026</td>
+<td>$120</td>
+</tr>
+
+<tr>
+<td>Mike Ross</td>
+<td>BMW X5</td>
+<td>Brake Service</td>
+<td>14 Apr 2026</td>
+<td>$350</td>
+</tr>
+
+<tr>
+<td>Sarah Lee</td>
+<td>Honda Civic</td>
+<td>Battery Replace</td>
+<td>16 Apr 2026</td>
+<td>$200</td>
+</tr>
+
+</table>
+
+</section>
+
+<section>
+
+<h2>Mechanic Login Panel</h2>
+
+<form>
+
+<input type="text" placeholder="Mechanic ID">
+
+<input type="password" placeholder="Password">
+
+<button>Login</button>
+
+</form>
+
+</section>
+
+<footer>
+
+<p>© 2026 Gems Motor Care</p>
+
+</footer>
+
+<script>
+
+function animateValue(id,start,end,duration){
+let obj=document.getElementById(id);
+let range=end-start;
+let current=start;
+let increment=end>start?1:-1;
+let stepTime=Math.abs(Math.floor(duration/range));
+let timer=setInterval(function(){
+current+=increment;
+obj.innerHTML=current;
+if(current==end){
+clearInterval(timer);
+}
+},stepTime);
+}
+
+animateValue("sales",0,1250,2000);
+animateValue("monthly",0,32000,2000);
+animateValue("customers",0,245,2000);
+animateValue("services",0,18,2000);
+
+const ctx=document.getElementById('salesChart');
+
+new Chart(ctx,{
+type:'line',
+data:{
+labels:['Jan','Feb','Mar','Apr','May','Jun'],
+datasets:[{
+label:'Sales',
+data:[5000,8000,12000,15000,20000,32000],
+borderColor:'#ffd700',
+fill:false
+}]
+},
+options:{
+plugins:{
+legend:{labels:{color:"white"}}
+},
+scales:{
+x:{ticks:{color:"white"}},
+y:{ticks:{color:"white"}}
+}
+}
+});
+
+</script>
+
+</body>
+</html>
