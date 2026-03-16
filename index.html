@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gems Motor Care - Smart Garage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#0f0f0f;
+color:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+padding:20px;
+background:#000;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+header h1{
+color:#ffd700;
+}
+
+nav a{
+color:white;
+margin:0 15px;
+text-decoration:none;
+padding-bottom:5px;
+}
+
+nav a.active{
+color:#ffd700;
+border-bottom:2px solid #ffd700;
+}
+
+.hero{
+height:70vh;
+background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+url("https://images.unsplash.com/photo-1503376780353-7e6692767b70");
+background-size:cover;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.hero h2{
+font-size:48px;
+}
+
+section{
+padding:60px 10%;
+}
+
+.services{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.card{
+background:#1a1a1a;
+padding:20px;
+border-radius:10px;
+text-align:center;
+cursor:pointer;
+transition:all .4s;
+}
+
+.card:hover{
+transform:scale(1.05);
+box-shadow:0 10px 25px rgba(255,215,0,0.3);
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.stat{
+background:#1c1c1c;
+padding:25px;
+border-radius:10px;
+text-align:center;
+font-size:24px;
+}
+
+input,select,textarea{
+width:100%;
+padding:12px;
+margin:10px 0;
+background:#2a2a2a;
+border:1px solid #444;
+border-radius:5px;
+color:white;
+}
+
+button{
+padding:12px 24px;
+background:#ffd700;
+border:none;
+font-weight:bold;
+cursor:pointer;
+border-radius:5px;
+color:#000;
+}
+
+button:hover{
+background:#ffed4a;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+td,th{
+border:1px solid #333;
+padding:10px;
+}
+
+.inventory-item{
+display:flex;
+justify-content:space-between;
+background:#2a2a2a;
+padding:10px;
+margin:10px 0;
+border-radius:6px;
+}
+
+footer{
+background:#000;
+padding:30px;
+text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>🚗 Gems Motor Care</h1>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#services">Services</a>
+<a href="#dashboard">Dashboard</a>
+<a href="#book">Book</a>
+<a href="#inventory">Inventory</a>
+<a href="#login">Login</a>
+</nav>
+
+</header>
+
+<div class="hero" id="home">
+
+<h2>Next Gen Smart Garage</h2>
+<p>Digital Vehicle Service Platform</p>
+
+<button onclick="scrollToSection('book')">Book Appointment</button>
+
+</div>
+
+<section id="services">
+
+<h2>Our Services</h2>
+
+<div class="services">
+
+<div class="card"><h3>🔧 Repair</h3></div>
+<div class="card"><h3>🛢 Oil Change</h3></div>
+<div class="card"><h3>🛑 Brake Service</h3></div>
+<div class="card"><h3>🔋 Battery Replace</h3></div>
+
+</div>
+
+</section>
+
+<section id="dashboard">
+
+<h2>Business Dashboard</h2>
+
+<div class="dashboard">
+
+<div class="stat"><span id="sales">0</span><p>Daily Sales</p></div>
+<div class="stat"><span id="monthly">0</span><p>Monthly Sales</p></div>
+<div class="stat"><span id="customers">0</span><p>Customers</p></div>
+<div class="stat"><span id="servicesToday">0</span><p>Services Today</p></div>
+
+</div>
+
+<h3>Sales Analytics</h3>
+
+<canvas id="salesChart"></canvas>
+
+</section>
+
+<section>
+
+<h2>Vehicle Service History</h2>
+
+<input type="text" id="searchService" placeholder="Search customer or vehicle">
+
+<table>
+
+<tr>
+<th>Customer</th>
+<th>Vehicle</th>
+<th>Service</th>
+<th>Date</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>John</td>
+<td>Toyota</td>
+<td>Oil Change</td>
+<td>12 Apr</td>
+<td>Done</td>
+</tr>
+
+<tr>
+<td>Mike</td>
+<td>BMW</td>
+<td>Brake</td>
+<td>14 Apr</td>
+<td>Done</td>
+</tr>
+
+<tr>
+<td>Sarah</td>
+<td>Honda</td>
+<td>Battery</td>
+<td>16 Apr</td>
+<td>Done</td>
+</tr>
+
+</table>
+
+</section>
+
+<section id="book">
+
+<h2>Book Service</h2>
+
+<form id="bookingForm">
+
+<input type="text" id="customerName" placeholder="Customer Name">
+
+<input type="text" id="vehicle" placeholder="Vehicle">
+
+<select id="serviceType">
+
+<option>Oil Change</option>
+<option>Brake Service</option>
+<option>Battery Replace</option>
+
+</select>
+
+<button type="submit">Book</button>
+
+</form>
+
+<h3>Upcoming Bookings</h3>
+
+<ul id="bookingList"></ul>
+
+</section>
+
+<section id="inventory">
+
+<h2>Inventory</h2>
+
+<form id="inventoryForm">
+
+<input type="text" id="itemName" placeholder="Item Name">
+
+<input type="number" id="itemQty" placeholder="Quantity">
+
+<input type="number" id="itemPrice" placeholder="Price">
+
+<button>Add Item</button>
+
+</form>
+
+<div id="inventoryList"></div>
+
+</section>
+
+<section>
+
+<h2>Invoice Generator</h2>
+
+<form id="invoiceForm">
+
+<input type="text" id="invoiceCustomer" placeholder="Customer">
+
+<input type="text" id="invoiceService" placeholder="Service">
+
+<input type="number" id="invoiceAmount" placeholder="Amount">
+
+<button>Generate</button>
+
+</form>
+
+<div id="invoicePreview"></div>
+
+</section>
+
+<section id="login">
+
+<h2>Mechanic Login</h2>
+
+<form id="mechanicLogin">
+
+<input type="text" id="mechID" placeholder="Mechanic ID">
+
+<input type="password" id="mechPass" placeholder="Password">
+
+<button>Login</button>
+
+</form>
+
+<div id="loginSuccess" style="display:none;color:#ffd700">
+Login Successful
+</div>
+
+</section>
+
+<footer>
+
+<p>© 2026 Gems Motor Care</p>
+
+</footer>
+
+<script>
+
+function scrollToSection(id){
+
+document.getElementById(id).scrollIntoView({behavior:"smooth"});
+
+}
+
+function animateValue(id,start,end,duration){
+
+let obj=document.getElementById(id);
+let range=end-start;
+let current=start;
+let increment=end>start?1:-1;
+let stepTime=Math.abs(Math.floor(duration/range));
+
+let timer=setInterval(function(){
+
+current+=increment;
+obj.innerHTML=current;
+
+if(current==end){
+
+clearInterval(timer);
+
+}
+
+},stepTime);
+
+}
+
+animateValue("sales",0,1200,2000);
+animateValue("monthly",0,30000,2000);
+animateValue("customers",0,245,2000);
+animateValue("servicesToday",0,18,2000);
+
+const ctx=document.getElementById('salesChart');
+
+new Chart(ctx,{
+type:'line',
+data:{
+labels:['Jan','Feb','Mar','Apr','May','Jun'],
+datasets:[{
+label:'Sales',
+data:[5000,8000,12000,15000,20000,32000],
+borderColor:'#ffd700',
+backgroundColor:'rgba(255,215,0,0.1)',
+fill:true
+}]
+}
+});
+
+document.getElementById("searchService").addEventListener("keyup",function(){
+
+let value=this.value.toLowerCase();
+let rows=document.querySelectorAll("table tr");
+
+rows.forEach((row,index)=>{
+
+if(index===0)return;
+
+let text=row.innerText.toLowerCase();
+
+row.style.display=text.includes(value)?"":"none";
+
+});
+
+});
+
+document.getElementById("bookingForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+let name=document.getElementById("customerName").value;
+let vehicle=document.getElementById("vehicle").value;
+let service=document.getElementById("serviceType").value;
+
+let li=document.createElement("li");
+
+li.innerText=name+" - "+vehicle+" - "+service;
+
+document.getElementById("bookingList").appendChild(li);
+
+this.reset();
+
+});
+
+let inventory=[];
+
+document.getElementById("inventoryForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+let name=document.getElementById("itemName").value;
+let qty=document.getElementById("itemQty").value;
+let price=document.getElementById("itemPrice").value;
+
+inventory.push({name,qty,price});
+
+updateInventory();
+
+this.reset();
+
+});
+
+function updateInventory(){
+
+let list=document.getElementById("inventoryList");
+
+list.innerHTML="";
+
+inventory.forEach(i=>{
+
+let div=document.createElement("div");
+
+div.className="inventory-item";
+
+div.innerHTML=i.name+" x "+i.qty+" - $"+i.price;
+
+list.appendChild(div);
+
+});
+
+}
+
+document.getElementById("invoiceForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+let c=document.getElementById("invoiceCustomer").value;
+let s=document.getElementById("invoiceService").value;
+let a=document.getElementById("invoiceAmount").value;
+
+document.getElementById("invoicePreview").innerHTML=
+
+"<h3>Invoice</h3>"+
+
+"<p>Customer: "+c+"</p>"+
+
+"<p>Service: "+s+"</p>"+
+
+"<p>Total: $"+a+"</p>";
+
+});
+
+document.getElementById("mechanicLogin").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+let id=document.getElementById("mechID").value;
+let pass=document.getElementById("mechPass").value;
+
+if(id==="admin" && pass==="1234"){
+
+document.getElementById("loginSuccess").style.display="block";
+
+}else{
+
+alert("Invalid login");
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
